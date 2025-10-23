@@ -1,7 +1,8 @@
+import axios from "axios";
 import { useState } from "react";
 import { Input, Select, Button, Form } from "antd";
 import { toast, ToastContainer } from "react-toastify";
-import {Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import CustomerServie from "../../../services/CustomerService";
 
@@ -9,6 +10,7 @@ const { Option } = Select;
 export default function Register() {
   const [inputs, setInputs] = useState<any>({});
   const [errors, setErrors] = useState<any>({});
+  const navigate = useNavigate();
 
   const handleChange = (name: string, value: any) => {
     setInputs((prev: any) => ({
@@ -79,8 +81,7 @@ export default function Register() {
 
     } catch (error) {
       console.error(error);
-      // toast.error(error.response.data.message);
-      toast.error("Đăng ký thất bại");
+      toast.error(error.response.data.message);
     }
   };
 

@@ -1,4 +1,4 @@
-import  { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Card, Spin } from "antd";
 import { Link } from "react-router-dom";
 import CategoryService from "../../../services/CategoryService";

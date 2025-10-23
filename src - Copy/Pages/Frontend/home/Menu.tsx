@@ -24,11 +24,9 @@ interface Topic {
 
 const MenuHeader: React.FC = () => {
   const [category, setCategory] = useState<Category[]>([]);
-  // const [brand, setBrand] = useState<Brand[]>([]);
-  // const [topic, setTopic] = useState<Topic[]>([]);
-  //  setTopic([])
-  const brand: Brand[] = [];
-  const topic: Topic[] = [];
+  const [brand, setBrand] = useState<Brand[]>([]);
+  const [topic, setTopic] = useState<Topic[]>([]);
+
   useEffect(() => {
     const fetch = async () => {
       try {

@@ -58,7 +58,7 @@ const ProductCategory: React.FC = () => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const res = await ProductService.productCategory(id!);
+        const res = await ProductService.productCategory(id);
         // console.log("🚀 ~ fetchData ~ res:", res)
         const cateData = res?.data?.productCategories?.[0];
         setNameCategory(cateData?.name || "");
@@ -126,11 +126,8 @@ const ProductCategory: React.FC = () => {
                     max={10000000}
                     step={100000}
                     value={[filter.minPrice, filter.maxPrice]}
-                    onChange={(values) =>
-                      setFilter({
-                        minPrice: (values as [number, number])[0],
-                        maxPrice: (values as [number, number])[1],
-                      })
+                    onChange={(values: [number, number]) =>
+                      setFilter({ minPrice: values[0], maxPrice: values[1] })
                     }
                   />
                   <div className="flex justify-between text-sm text-gray-600">
@@ -196,6 +193,7 @@ const ProductCategory: React.FC = () => {
                     <Col xs={24} sm={12} md={6} key={product.id}>
                       <ProductItem
                         products={product}
+                        totalSum={product.total_qty}
                       />
                     </Col>
                   ))}

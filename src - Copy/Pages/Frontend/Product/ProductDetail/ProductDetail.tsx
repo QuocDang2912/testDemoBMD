@@ -28,11 +28,11 @@ export default function ProductDetail() {
   const [productOther, setProductOther] = useState<Product[]>([]);
   const [qty, setQty] = useState<number>(1);
   const [loading, setLoading] = useState<boolean>(true);
-setProductOther([])
+
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const res = await ProductService.show(id!);
+        const res = await ProductService.show(id);
         console.log("🚀 ~ fetchProduct:", res);
         setProduct(res.data);
         // setProductOther(res.product_other);

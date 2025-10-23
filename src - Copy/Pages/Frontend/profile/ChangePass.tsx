@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import {  Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { Form, Input, Button, Breadcrumb, Card, message } from "antd";
 import CustomerServie from "../../../services/CustomerService";
 
@@ -12,6 +12,7 @@ interface ChangePasswordForm {
 
 const ChangePass: React.FC = () => {
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
 
   const [form] = Form.useForm<ChangePasswordForm>();
@@ -20,7 +21,7 @@ const ChangePass: React.FC = () => {
 
     setLoading(true);
     try {
-       await CustomerServie.changePass(values);
+      const res = await CustomerServie.changePass(values);
     //   console.log("🚀 ~ handleSubmit ~ res:", res);
       message.success("Đổi mật khẩu thành công!");
       form.resetFields();

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Table, Button, Modal, Input, message, Tag } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import OrderServie from "../../../services/OrderService";
@@ -6,10 +6,7 @@ import { toast } from "react-toastify";
 
 // import OrderService from "../../../services/OrderService";
 
-interface Product {
-  image: string;
-  // có thể thêm các thuộc tính khác như id, name, ...
-}
+
 interface OrderDetail {
   id: number;
   name: string;
@@ -17,8 +14,7 @@ interface OrderDetail {
   price: number;
   discount: number;
   quantity: number;
-  image:string;
-  product: Product;
+  image:string
 }
 
 interface Order {
