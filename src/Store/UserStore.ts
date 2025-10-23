@@ -8,10 +8,11 @@ interface User {
   fullName: string;
   email: string;
   id: number;
+  address:string
 }
 
 class UserStore {
-  user: User = { phone: 0, fullName: "", email: "", id: 0 };
+  user: User = { phone: 0, fullName: "", email: "", id: 0 ,address:"" };
 
   constructor() {
     makeAutoObservable(this);
@@ -27,7 +28,7 @@ class UserStore {
       console.log("🛒 After add:", toJS(this.user));
     }
     reset =() => { 
-      return this.user = {phone: 0, fullName: "", email: "", id: 0}
+      return this.user = {phone: 0, fullName: "", email: "", id: 0 ,address:""}
     }
 }
 

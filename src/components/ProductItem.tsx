@@ -23,13 +23,13 @@ const ProductItem: React.FC<ProductItemProps> = ({
 }) => {
 
   const handleClickToCart = (e: React.MouseEvent) => {
+    toast.success("Đã thêm sản phẩm vào giỏ hàng!");
     e.preventDefault();
       const  {id ,name,finalPrice,image }= products 
       const dataProduct ={
          id ,name,finalPrice,image , count :1
       }
       cartStore.addToCart(dataProduct)
-      toast.success("Đã thêm sản phẩm vào giỏ hàng!");
   };
 
   const formattedPrice = (value: number) =>

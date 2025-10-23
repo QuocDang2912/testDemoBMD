@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import CustomerServie from "../../../services/CustomerService";
 import "react-toastify/dist/ReactToastify.css";
 // import axios, { AxiosRequestConfig } from "axios";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import { Form, Input, Button, Typography, Card } from "antd";
 import "react-toastify/dist/ReactToastify.css";
 import { userStore } from "../../../Store/UserStore";
@@ -60,7 +60,7 @@ export default function Login() {
   document.title = "Đăng nhập";
 
   return (
-    <section className="min-h-screen flex items-center justify-center bg-gray-50 py-8">
+    <section className="flex items-center justify-center bg-gray-50 py-5">
       <Card className="w-full max-w-md shadow-xl rounded-2xl p-6">
         <div className="text-center mb-6">
           <Title level={3} className="text-blue-600">
@@ -117,13 +117,6 @@ export default function Login() {
         </p>
       </Card>
 
-      <ToastContainer
-        position="top-right"
-        autoClose={1500}
-        hideProgressBar={false}
-        pauseOnHover
-        theme="colored"
-      />
     </section>
   );
 }

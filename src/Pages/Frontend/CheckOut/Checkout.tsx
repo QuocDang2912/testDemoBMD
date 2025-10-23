@@ -3,9 +3,11 @@ import { Button, Form, Input, Modal, Select, Table } from "antd";
 import DiscountcodeService from "../../../services/DiscountcodeService";
 import { cartStore } from "../../../Store/cartStore";
 import addressServie from "../../../services/AddressService";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import OrderServie from "../../../services/OrderService";
 import { useNavigate } from "react-router-dom";
+import { toJS } from "mobx";
+import { userStore } from "../../../Store/UserStore";
 
 
 
@@ -146,7 +148,7 @@ const handleDistrictChange = (value: number) => {
         setDiscountCodes(res.data.couponCampaigns || []);
       } catch (error) {
         console.log("🚀 ~ fetchCodes ~ error:", error)
-        toast.error("Không thể tải danh sách mã giảm giá!");
+        // toast.error("Không thể tải danh sách mã giảm giá!");
       }
     };
     fetchCodes();
@@ -165,24 +167,29 @@ const handleDistrictChange = (value: number) => {
       return;
     }
     if(total<selectedCode.conditionValue){
-      toast.warning("Bạn trị đơn hơn của bạn chưa đủ để nhận giảm giá!");
+      toast.warning("giá trị đơn hàng của bạn chưa đủ để nhận giảm giá!");
+      setSelectedCode(null)
       return;
+    }else{
+      toast.success(`Áp dụng mã thành công ${code}`);
+      setDiscountAmount(selectedCode.discountValue);
     }
-    toast.success(`Áp dụng mã thành công ${code}`);
-    setDiscountAmount(selectedCode.discountValue);
   };
 
   
-  const dataUser = localStorage.getItem("user");
-  let user = null;
+  // const dataUser = localStorage.getItem("user");
+  // let user = null;
 
-  if (dataUser) {
-    user = JSON.parse(dataUser);
-    console.log("🚀 ~ Checkout ~ user:", user)
-  }
+  // if (dataUser) {
+  //   user = JSON.parse(dataUser);
+  //   console.log("🚀 ~ Checkout ~ user:", user)
+  // }
+  const user = toJS(userStore.user); // gỡ lớp Proxy MobX
+  console.log("🚀 ~ user:", user)
 
 
 
+  const handleCheckout = async () => {
 
   const cartDetails: CartDetail[] = cartItems.map((item) => ({
     quantity: item.count,
@@ -194,10 +201,6 @@ const handleDistrictChange = (value: number) => {
     weight: 0,
     refCustomerId: user.id,
   }));
-
- 
-
-  const handleCheckout = async () => {
     const cityId = provinces.find(p => Number(p.code) == selectedProvince)?.id ?? null;
     const districtId = districts.find(d => Number(d.code) == selectedDistrict)?.id ?? null;
     const wardId = wards.find(w => Number(w.code) == selectedWard)?.id ?? null;
@@ -233,10 +236,10 @@ const handleDistrictChange = (value: number) => {
     }
  
     try {
-      if(user.id){
+      if(user.id !==0){
          if(selectedProvince && selectedDistrict && selectedWard ){
             await OrderServie.store(dataSend)
-           localStorage.removeItem("UserStore");
+           localStorage.removeItem("cartStore");
            cartStore.reset()
             toast.success("Đặt hàng thành công!", {
               autoClose: 1000, 
@@ -449,18 +452,6 @@ const handleDistrictChange = (value: number) => {
           pagination={false}
         />
       </Modal>
-         <ToastContainer
-                position="top-right"
-                autoClose={5000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-                theme="light"
-            />
     </div>
   );
 };

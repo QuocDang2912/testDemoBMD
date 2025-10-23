@@ -1,6 +1,6 @@
 import { Breadcrumb, Button, Image, InputNumber, Table, Typography } from "antd";
 import { useNavigate, Link } from "react-router-dom";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import { cartStore } from "../../../Store/cartStore";
 import { observer } from "mobx-react-lite";
 
@@ -192,18 +192,6 @@ interface CartItem {
           </div>
         </div>
       </div>
-          <ToastContainer
-                position="top-right"
-                autoClose={5000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-                theme="light"
-            />
     </div>
   );
 })

@@ -3,10 +3,10 @@ import { Input, Dropdown, Menu } from "antd";
 import { FaSearch, FaPhoneSquare, FaUser } from "react-icons/fa";
 import { FaShoppingBag } from "react-icons/fa";
 import phoneIcon from "../../assets/images/phone.png";
-import dog from "../../assets/logo2.png";
+import dog from "../../assets/logo.jpg";
 import { cartStore } from "../../Store/cartStore";
 import { observer } from "mobx-react-lite";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import { userStore } from "../../Store/UserStore";
 import { useNavigate, Link } from "react-router-dom";
 import { toJS } from "mobx";
@@ -164,7 +164,6 @@ const Header: React.FC = observer(() => {
           </Link>
         </div>
       </div>
-      <ToastContainer position="top-right" autoClose={3000} theme="light" />
 
     </header>
     

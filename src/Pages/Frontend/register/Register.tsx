@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Input, Select, Button, Form } from "antd";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import {Link } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import CustomerServie from "../../../services/CustomerService";
@@ -192,7 +192,6 @@ export default function Register() {
               </div>
             </Form>
           </div>
-            <ToastContainer position="top-right" autoClose={3000} theme="light" />
       </div>
     </>
 

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Breadcrumb, Card, Button, InputNumber, Typography, Spin, Row, Col } from "antd";
-import { toast,ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import ProductService from "../../../../services/ProductService";
@@ -49,12 +49,13 @@ export default function ProductDetail() {
 
   const handleAddToCart = (e: React.FormEvent) => {
     e.preventDefault();
+    toast.success("Thêm vào giỏ hàng thành công!"); 
     const  {id ,name,finalPrice,image }= product!
       const dataProduct ={
          id ,name,finalPrice,image , count :+qty
       }
     cartStore.addToCart(dataProduct)
-    toast.success("Thêm vào giỏ hàng thành công!"); 
+
   };
 
   if (loading) {
@@ -159,13 +160,6 @@ export default function ProductDetail() {
           )}
         </div>
       </div>
-      <ToastContainer
-        position="top-right"
-        autoClose={1500}
-        hideProgressBar={false}
-        pauseOnHover
-        theme="colored"
-      />
     </div>
   );
 }
