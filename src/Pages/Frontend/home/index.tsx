@@ -1,4 +1,3 @@
-import React from 'react'
 
 import Slides from './Slides'
 import ThreeItem from './ThreeInfo';

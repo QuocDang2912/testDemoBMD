@@ -1,4 +1,3 @@
-import React, { useState } from 'react'
 import Header from './Header'
 import Footer from './Footer'
 import { Outlet } from 'react-router-dom'
@@ -14,7 +13,7 @@ export default function LayOutSite() {
             <Outlet />
             <ScrollToTop style={{ display: 'flex',
                 justifyContent: 'center',
-                alignItems: 'center', right: 30, bottom: 86, backgroundColor: "#42A5F5" }} smooth top='200' />
+                alignItems: 'center', right: 30, bottom: 86, backgroundColor: "#42A5F5" }} smooth top={200} />
             <Footer />
         </div>
     )

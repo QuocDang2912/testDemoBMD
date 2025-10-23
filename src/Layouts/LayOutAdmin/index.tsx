@@ -1,4 +1,3 @@
-import React from 'react'
 import './LayoutAdminStyle.css';
 
 import { Outlet } from 'react-router-dom';

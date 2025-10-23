@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Carousel, Spin, Button } from "antd";
-import { LeftOutlined, RightOutlined } from "@ant-design/icons";
+import { Carousel, Spin } from "antd";
 import BannerServie from "../../../services/BannerService";
 // import { urlImage } from "../../../Api/config";
 

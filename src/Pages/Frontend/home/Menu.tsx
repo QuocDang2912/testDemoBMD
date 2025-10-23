@@ -27,6 +27,8 @@ const MenuHeader: React.FC = () => {
   const [brand, setBrand] = useState<Brand[]>([]);
   const [topic, setTopic] = useState<Topic[]>([]);
 
+  setBrand([])
+  setTopic([])
   useEffect(() => {
     const fetch = async () => {
       try {

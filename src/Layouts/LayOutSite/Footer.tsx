@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
   FacebookFilled,
@@ -8,7 +8,6 @@ import {
 } from "@ant-design/icons";
 
 export default function Footer() {
-  const [Page, setPage] = useState([]);
 
   useEffect(() => {
     const fetch = async () => {
