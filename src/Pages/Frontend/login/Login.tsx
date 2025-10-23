@@ -49,9 +49,10 @@ export default function Login() {
           navigate("/");
         },
       });
-    } catch (error: unknown) {
+    } catch (error: any) {
       console.error("Đăng nhập thất bại:", error);
-      toast.error( "Đăng nhập thất bại!");
+      // toast.error( "Đăng nhập thất bại!");
+      toast.error(error.response?.data?.message || "Đăng nhập thất bại!");
     } finally {
       setLoading(false);
     }

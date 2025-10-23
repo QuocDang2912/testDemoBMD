@@ -37,6 +37,11 @@ interface CartItem {
   const handleRemoveFromCart = (item: CartItem) => {
     cartStore.removeFromCart(item.id);
   };
+
+  const handleChangeCount = (id: number, value: number | null) => {
+  if (!value || value < 1) return;
+  cartStore.updateCount(id, value);
+};
   
 
   const handleCheckout = () => {
@@ -93,7 +98,7 @@ interface CartItem {
           <InputNumber
             min={1}
             value={item.count}
-            readOnly
+            onChange={(value) => handleChangeCount(item.id, value)}
             className="w-16 text-center"
           />
           <Button

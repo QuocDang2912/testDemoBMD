@@ -67,6 +67,11 @@ class CartStore {
     reset =() => { 
       return this.cart.productList =[] 
     }
+    updateCount = (id: number, newCount: number) => {
+      this.cart.productList = this.cart.productList.map((item) =>
+        item.id === id ? { ...item, count: newCount } : item
+      );
+    };
 }
 
 const cartStore = new CartStore();
@@ -75,36 +80,4 @@ export { cartStore };
 
 
 
- // import { cartStore } from "../../../../Store/cartStore";
-  // const handleAddToCart = (product:products) => { 
-  //     console.log("🚀 ~ handleAddToCart ~ product:", product)
-  //     cartStore.addToCart(product)
-  //  }
-
-  // // lấy 
-  //  const cart = cartStore.cart
-  //  console.log("🚀 ~ ProductAll ~ cart:", cart)
-
-//   @action
-//   async login(username: string, password: string) {
-//     const res = await authApi.login({ username, password });
-//     setToken(res.data.token);
-//     this.token = res.data.token;
-//   }
-
-//   @action
-//   async getProfile() {
-//     const res = await authApi.profile();
-
-//     this.info = res.data;
-//   }
-
-//   @action
-//   logout = () => {
-//     if (!$isDev) {
-//       const token = this.token;
-//       //   oneSignal.userLogout(token);
-//     }
-//     setToken("");
-//     this.token = "";
-//   };
+ 

@@ -251,7 +251,12 @@ const handleDistrictChange = (value: number) => {
            toast.warning("Vùi lòng điền đầy đủ thông tin giao hàng trước khi thanh toán!");
          }
       }else{
-        toast.error("Vui lòng đăng nhập trước khi thanh toán!");
+         toast.error("Vui lòng đăng nhập trước khi thanh toán!", {
+            autoClose: 2000, // thời gian hiển thị toast (1s)
+            onClose: () => {
+              navigate("/login");
+            },
+          });
       }
 
     } catch (error) {

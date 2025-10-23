@@ -9,10 +9,14 @@ import Manage_Order from "../Pages/Frontend/profile/Manage_Order"
 import Profile from "../Pages/Frontend/profile/Profile"
 // import QuanLy_Order from "../pages/fronend/profile/QuanLy_Order"
 import Register from "../Pages/Frontend/register/Register"
+import NotFound from "../Pages/Frontend/NotFound/NotFound"
 // import ResetPassword from "../pages/fronend/resetPass/ResetPassword.jsx"
 // import UserByEmail from "../pages/fronend/resetPass/UserByEmail.jsx"
 
 const RouteSite = [
+    {
+        path: '*',component :NotFound
+    },
     {
         path: '/', component: Home,
     },

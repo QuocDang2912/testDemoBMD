@@ -73,18 +73,19 @@ export default function Footer() {
               </Link>
             </li>
             <li>
-              <Link to="/productall" className="hover:text-[#006ba1]">
-                Sản phẩm
+              <Link to="/" className="hover:text-[#006ba1]">
+                Tính năng đang phát triển
               </Link>
             </li>
             <li>
-              <Link to="/postall" className="hover:text-[#006ba1]">
-                Bài viết
+              <Link to="/" className="hover:text-[#006ba1]">
+                                Tính năng đang phát triển
               </Link>
             </li>
             <li>
-              <Link to="/contact" className="hover:text-[#006ba1]">
-                Liên hệ
+              <Link to="/" className="hover:text-[#006ba1]">
+                Tính năng đang phát triển
+
               </Link>
             </li>
           </ul>
@@ -114,18 +115,21 @@ export default function Footer() {
               </Link>
             </li>
             <li>
-              <Link to="/productall" className="hover:text-[#006ba1]">
-                Sản phẩm
+              <Link to="/" className="hover:text-[#006ba1]">
+               Sản phẩm
+
               </Link>
             </li>
             <li>
-              <Link to="/postall" className="hover:text-[#006ba1]">
-                Bài viết
+              <Link to="/" className="hover:text-[#006ba1]">
+                 Bài viết 
+
               </Link>
             </li>
             <li>
-              <Link to="/contact" className="hover:text-[#006ba1]">
+              <Link to="/" className="hover:text-[#006ba1]">
                 Liên hệ
+
               </Link>
             </li>
           </ul>

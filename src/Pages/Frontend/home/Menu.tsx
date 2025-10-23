@@ -10,25 +10,25 @@ interface Category {
   slug: string;
 }
 
-interface Brand {
-  id: number;
-  name: string;
-  slug: string;
-}
+// interface Brand {
+//   id: number;
+//   name: string;
+//   slug: string;
+// }
 
-interface Topic {
-  id: number;
-  name: string;
-  slug: string;
-}
+// interface Topic {
+//   id: number;
+//   name: string;
+//   slug: string;
+// }
 
 const MenuHeader: React.FC = () => {
   const [category, setCategory] = useState<Category[]>([]);
   // const [brand, setBrand] = useState<Brand[]>([]);
   // const [topic, setTopic] = useState<Topic[]>([]);
   //  setTopic([])
-  const brand: Brand[] = [];
-  const topic: Topic[] = [];
+  // const brand: Brand[] = [];
+  // const topic: Topic[] = [];
   useEffect(() => {
     const fetch = async () => {
       try {
@@ -60,33 +60,33 @@ const MenuHeader: React.FC = () => {
     </Menu>
   );
 
-  const brandMenu = (
-    <Menu>
-      {brand.map((b) => (
-        <Menu.Item key={b.id}>
-          <Link to={`/productbrand/${b.slug}`}>{b.name}</Link>
-        </Menu.Item>
-      ))}
-      <Menu.Divider />
-      <Menu.Item>
-        <Link to="/productall">Tất cả sản phẩm</Link>
-      </Menu.Item>
-    </Menu>
-  );
+  // const brandMenu = (
+  //   <Menu>
+  //     {brand.map((b) => (
+  //       <Menu.Item key={b.id}>
+  //         <Link to={`/productbrand/${b.slug}`}>{b.name}</Link>
+  //       </Menu.Item>
+  //     ))}
+  //     <Menu.Divider />
+  //     <Menu.Item>
+  //       <Link to="/productall">Tất cả sản phẩm</Link>
+  //     </Menu.Item>
+  //   </Menu>
+  // );
 
-  const topicMenu = (
-    <Menu>
-      {topic.map((t) => (
-        <Menu.Item key={t.id}>
-          <Link to={`/posttopic/${t.slug}`}>{t.name}</Link>
-        </Menu.Item>
-      ))}
-      <Menu.Divider />
-      <Menu.Item>
-        <Link to="/postall">Tất cả bài viết</Link>
-      </Menu.Item>
-    </Menu>
-  );
+  // const topicMenu = (
+  //   <Menu>
+  //     {topic.map((t) => (
+  //       <Menu.Item key={t.id}>
+  //         <Link to={`/posttopic/${t.slug}`}>{t.name}</Link>
+  //       </Menu.Item>
+  //     ))}
+  //     <Menu.Divider />
+  //     <Menu.Item>
+  //       <Link to="/postall">Tất cả bài viết</Link>
+  //     </Menu.Item>
+  //   </Menu>
+  // );
 
   return (
     <section className="bg-blue-600 text-white shadow-md">
@@ -106,22 +106,25 @@ const MenuHeader: React.FC = () => {
           </Dropdown>
 
           {/* Thương hiệu */}
-          <Dropdown overlay={brandMenu} trigger={["hover"]}>
+          {/* <Dropdown overlay={brandMenu} trigger={["hover"]}>
             <button className="flex items-center gap-1 hover:text-yellow-300">
               Thương hiệu sản phẩm <DownOutlined />
             </button>
-          </Dropdown>
+          </Dropdown> */}
 
           {/* Bài viết */}
-          <Dropdown overlay={topicMenu} trigger={["hover"]}>
+          {/* <Dropdown overlay={topicMenu} trigger={["hover"]}>
             <button className="flex items-center gap-1 hover:text-yellow-300">
               Bài viết <DownOutlined />
             </button>
-          </Dropdown>
+          </Dropdown> */}
 
           {/* Liên hệ */}
           <Link to="/contact" className="hover:text-yellow-300">
             Liên hệ
+          </Link>
+           <Link to="/post" className="hover:text-yellow-300">
+            Bài viết
           </Link>
         </div>
       </div>
