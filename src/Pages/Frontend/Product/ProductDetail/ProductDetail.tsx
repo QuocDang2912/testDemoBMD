@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Breadcrumb, Card, Button, InputNumber, Typography, Spin, Row, Col } from "antd";
-import { toast } from "react-toastify";
+import { toast,ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import ProductService from "../../../../services/ProductService";
@@ -25,10 +25,9 @@ interface Product {
 export default function ProductDetail() {
   const { id } = useParams<{ id: string }>();
   const [product, setProduct] = useState<Product | null>(null);
-  const [productOther, setProductOther] = useState<Product[]>([]);
   const [qty, setQty] = useState<number>(1);
   const [loading, setLoading] = useState<boolean>(true);
-setProductOther([])
+   const productOther: Product[] = [];
   useEffect(() => {
     const fetchProduct = async () => {
       try {
@@ -160,6 +159,13 @@ setProductOther([])
           )}
         </div>
       </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={1500}
+        hideProgressBar={false}
+        pauseOnHover
+        theme="colored"
+      />
     </div>
   );
 }
