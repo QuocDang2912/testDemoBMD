@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Form, Input, Modal, Select, Table } from "antd";
+import { Button, Form, Input, Modal, Select, Table,Radio } from "antd";
 import DiscountcodeService from "../../../services/DiscountcodeService";
 import { cartStore } from "../../../Store/cartStore";
 import addressServie from "../../../services/AddressService";
@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { toJS } from "mobx";
 import { userStore } from "../../../Store/UserStore";
 
+// State
 
 
 interface DiscountCode {
@@ -71,6 +72,10 @@ const Checkout: React.FC = () => {
   const [selectedProvince, setSelectedProvince] = useState<number | null>(null);
   const [selectedDistrict, setSelectedDistrict] = useState<number | null>(null);
   const [selectedWard, setSelectedWard] = useState<number | null>(null);
+
+  const [isReceiveAtStore, setIsReceiveAtStore] = useState<boolean>(true);
+
+
   const [form] = Form.useForm();
   // 🏙️ Lấy danh sách tỉnh từ API của Việt Nam
   useEffect(() => {
@@ -177,13 +182,7 @@ const handleDistrictChange = (value: number) => {
   };
 
   
-  // const dataUser = localStorage.getItem("user");
-  // let user = null;
-
-  // if (dataUser) {
-  //   user = JSON.parse(dataUser);
-  //   console.log("🚀 ~ Checkout ~ user:", user)
-  // }
+ 
   const user = toJS(userStore.user); // gỡ lớp Proxy MobX
   console.log("🚀 ~ user:", user)
 
@@ -207,7 +206,7 @@ const handleDistrictChange = (value: number) => {
 
     const dataSend ={
       order : {
-            "isHasPoint": true,
+            // "isHasPoint": true,
             "note": "string",
             "length": 0,
             "width": 0,
@@ -222,8 +221,10 @@ const handleDistrictChange = (value: number) => {
             "distance": 0,
             "paidPoint": 0,
             "totalWeight": 0,
-            "isReceiveAtStore": true,
-            "isFreeShip": true,
+            // "isReceiveAtStore": true,  //đượcNhận tại cửa hàng
+            // "isFreeShip": true,
+            isReceiveAtStore: isReceiveAtStore,
+            isFreeShip: !isReceiveAtStore,
       },
       details: cartDetails,
       cityId: cityId,
@@ -365,6 +366,17 @@ const handleDistrictChange = (value: number) => {
               </Select>
             </Form.Item>
           </Form>
+          <div className="mt-4">
+            <Form.Item label="Hình thức nhận hàng">
+              <Radio.Group
+                value={isReceiveAtStore ? "store" : "address"}
+                onChange={(e) => setIsReceiveAtStore(e.target.value === "store")}
+              >
+                <Radio value="store">Nhận tại cửa hàng</Radio>
+                <Radio value="address">Nhận tại địa chỉ</Radio>
+              </Radio.Group>
+            </Form.Item>
+          </div>
         </div>
 
         {/* --- Thông tin đơn hàng --- */}

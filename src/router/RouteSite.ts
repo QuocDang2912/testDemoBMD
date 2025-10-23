@@ -24,7 +24,7 @@ const RouteSite = [
         path: '/register', component: Register,
     },
     {
-        path: '/login', component: Login,
+        path: 'login', component: Login,
     },
     {
         path: '/cart', component: Cart,
