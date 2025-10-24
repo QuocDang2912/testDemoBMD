@@ -609,7 +609,7 @@ const handleConfirmCheckout = async () => {
         cancelText="Hủy"
         width={500}
       >
-        <div className="space-y-3 text-right">
+        <div className="space-y-3 text-left">
           <p>Tạm tính: {total.toLocaleString("vi-VN")}₫</p>
           <p>Phí vận chuyển: +{shippingFee.toLocaleString("vi-VN")}₫</p>
           <p>Giảm giá: -{discountAmount.toLocaleString("vi-VN")}₫</p>

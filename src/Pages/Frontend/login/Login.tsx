@@ -79,7 +79,7 @@ export default function Login() {
           autoComplete="off"
         >
           <Form.Item
-            label="Số điện thoại (*)"
+            label="Số điện thoại"
             name="phone"
             rules={[{ required: true, message: "Vui lòng nhập tên tài khoản!" }]}
           >
@@ -87,7 +87,7 @@ export default function Login() {
           </Form.Item>
 
           <Form.Item
-            label="Mật khẩu (*)"
+            label="Mật khẩu"
             name="password"
             rules={[{ required: true, message: "Vui lòng nhập mật khẩu!" }]}
           >
