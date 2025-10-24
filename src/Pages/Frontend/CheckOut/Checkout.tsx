@@ -63,6 +63,7 @@ const Checkout: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   const [selectedCode, setSelectedCode] = useState<DiscountCode | null>(null);
   const [discountAmount, setDiscountAmount] = useState<number>(0);
+  const [shippingFee, setShippingFee] = useState<number>(0);
 
 
   const [provinces, setProvinces] = useState<Province[]>([]);
@@ -74,6 +75,7 @@ const Checkout: React.FC = () => {
   const [selectedWard, setSelectedWard] = useState<number | null>(null);
 
   const [isReceiveAtStore, setIsReceiveAtStore] = useState<boolean>(true);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
 
 
   const [form] = Form.useForm();
@@ -186,11 +188,7 @@ const handleDistrictChange = (value: number) => {
   const user = toJS(userStore.user); // gỡ lớp Proxy MobX
   console.log("🚀 ~ user:", user)
 
-
-
-  const handleCheckout = async () => {
-
-  const cartDetails: CartDetail[] = cartItems.map((item) => ({
+    const cartDetails: CartDetail[] = cartItems.map((item) => ({
     quantity: item.count,
     productId: item.id,
     name: item.name,
@@ -204,7 +202,68 @@ const handleDistrictChange = (value: number) => {
     const districtId = districts.find(d => Number(d.code) == selectedDistrict)?.id ?? null;
     const wardId = wards.find(w => Number(w.code) == selectedWard)?.id ?? null;
 
-    const dataSend ={
+  // Khi bấm nút "Xác nhận thanh toán" trên giao diện
+const handleCheckout = async () => {
+  const dataSend ={
+      order : {
+            "length": 0,
+            "width": 0,
+            "height": 0,
+            "receiverName": user.fullName,
+            "receiverPhone": user.phone,
+            "receiverAddress": user.address,
+            "status": "string",
+            "distance": 0,
+            "paidPoint": 0,
+            "totalWeight": 0,
+            isReceiveAtStore: false,
+            isFreeShip:  false, // hoặc ký luật khác nếu muốn
+      },
+      details: cartDetails,
+      cityId: cityId,
+      districtId: districtId,
+      wardId: wardId,
+      storeId: 55
+    }
+
+      try {
+      if(user.id !==0){
+         if(isReceiveAtStore ||
+        (selectedProvince && selectedDistrict && selectedWard) ){
+              // Nếu KHÔNG nhận tại cửa hàng → gọi API để tính phí ship
+              if (!isReceiveAtStore) {
+                const response = await OrderServie.checkStore(dataSend);
+                console.log("response", response);
+
+                const data = response.data; 
+                setShippingFee(data.shipFee || 0);
+              } else {
+                setShippingFee(0);
+              }
+
+              setShowConfirmModal(true);
+         }else{
+           toast.warning("Vùi lòng điền đầy đủ thông tin giao hàng trước khi thanh toán!");
+         }
+      }else{
+         toast.error("Vui lòng đăng nhập trước khi thanh toán!", {
+            autoClose: 2000, // thời gian hiển thị toast (1s)
+            onClose: () => {
+              navigate("/login");
+            },
+          });
+      }
+
+    } catch (error:any) {
+      console.log("🚀 ~ handleCheckout ~ error:", error)
+            toast.error(error.response?.data?.message || "Đặt hàng thất bại!");
+    }
+};
+
+// Khi người dùng xác nhận trong popup
+const handleConfirmCheckout = async () => {
+
+   const dataSend ={
       order : {
             // "isHasPoint": true,
             "note": "string",
@@ -224,7 +283,7 @@ const handleDistrictChange = (value: number) => {
             // "isReceiveAtStore": true,  //đượcNhận tại cửa hàng
             // "isFreeShip": true,
             isReceiveAtStore: isReceiveAtStore,
-            isFreeShip: !isReceiveAtStore,
+            isFreeShip: isReceiveAtStore ? true : false, // hoặc ký luật khác nếu muốn
       },
       details: cartDetails,
       cityId: cityId,
@@ -235,36 +294,103 @@ const handleDistrictChange = (value: number) => {
         couponType: selectedCode.type,
       }),
     }
- 
-    try {
-      if(user.id !==0){
-         if(selectedProvince && selectedDistrict && selectedWard ){
-            await OrderServie.store(dataSend)
-           localStorage.removeItem("cartStore");
-           cartStore.reset()
-            toast.success("Đặt hàng thành công!", {
-              autoClose: 1000, 
-              onClose: () => {
-                navigate("/");
-              },
-            });  
-         }else{
-           toast.warning("Vùi lòng điền đầy đủ thông tin giao hàng trước khi thanh toán!");
-         }
-      }else{
-         toast.error("Vui lòng đăng nhập trước khi thanh toán!", {
-            autoClose: 2000, // thời gian hiển thị toast (1s)
-            onClose: () => {
-              navigate("/login");
-            },
-          });
-      }
+  try {
+        await OrderServie.store(dataSend);
+        localStorage.removeItem("cartStore");
+        cartStore.reset();
+        setShowConfirmModal(false);
+        toast.success("Đặt hàng thành công!", {
+          autoClose: 1000,
+          onClose: () => navigate("/"),
+        });
 
-    } catch (error) {
-      console.log("🚀 ~ handleCheckout ~ error:", error)
-      toast.error("Đặt hàng thất bại!");
-    }
-  };
+  } catch (error:any) {
+    console.log("🚀 ~ handleConfirmCheckout ~ error:", error);
+    toast.error(error.response?.data?.message || "Đặt hàng thất bại!");
+
+  }
+};
+
+
+
+  // const handleCheckout = async () => {
+
+  // // const cartDetails: CartDetail[] = cartItems.map((item) => ({
+  // //   quantity: item.count,
+  // //   productId: item.id,
+  // //   name: item.name,
+  // //   length: 0,
+  // //   width: 0,
+  // //   height: 0,
+  // //   weight: 0,
+  // //   refCustomerId: user.id,
+  // // }));
+  // //   const cityId = provinces.find(p => Number(p.code) == selectedProvince)?.id ?? null;
+  // //   const districtId = districts.find(d => Number(d.code) == selectedDistrict)?.id ?? null;
+  // //   const wardId = wards.find(w => Number(w.code) == selectedWard)?.id ?? null;
+
+  //   const dataSend ={
+  //     order : {
+  //           // "isHasPoint": true,
+  //           "note": "string",
+  //           "length": 0,
+  //           "width": 0,
+  //           "height": 0,
+  //           "senderName": "string",
+  //           "senderPhone": "string",
+  //           "senderAddress": "string",
+  //           "receiverName": user.fullName,
+  //           "receiverPhone": user.phone,
+  //           "receiverAddress": user.address,
+  //           "status": "string",
+  //           "distance": 0,
+  //           "paidPoint": 0,
+  //           "totalWeight": 0,
+  //           // "isReceiveAtStore": true,  //đượcNhận tại cửa hàng
+  //           // "isFreeShip": true,
+  //           isReceiveAtStore: isReceiveAtStore,
+  //           isFreeShip: isReceiveAtStore ? true : false, // hoặc ký luật khác nếu muốn
+  //     },
+  //     details: cartDetails,
+  //     cityId: cityId,
+  //     districtId: districtId,
+  //     wardId: wardId,
+  //     ...(selectedCode?.code && {
+  //       couponCode: selectedCode.code,
+  //       couponType: selectedCode.type,
+  //     }),
+  //   }
+ 
+  //   try {
+  //     if(user.id !==0){
+  //        if(isReceiveAtStore ||
+  //       (selectedProvince && selectedDistrict && selectedWard) ){
+  //           await OrderServie.store(dataSend)
+  //          localStorage.removeItem("cartStore");
+  //          cartStore.reset()
+  //           toast.success("Đặt hàng thành công!", {
+  //             autoClose: 1000, 
+  //             onClose: () => {
+  //               navigate("/");
+  //             },
+  //           });  
+  //        }else{
+  //          toast.warning("Vùi lòng điền đầy đủ thông tin giao hàng trước khi thanh toán!");
+  //        }
+  //     }else{
+  //        toast.error("Vui lòng đăng nhập trước khi thanh toán!", {
+  //           autoClose: 2000, // thời gian hiển thị toast (1s)
+  //           onClose: () => {
+  //             navigate("/login");
+  //           },
+  //         });
+  //     }
+
+  //   } catch (error:any) {
+  //     console.log("🚀 ~ handleCheckout ~ error:", error)
+  //           toast.error(error.response?.data?.message || "Đặt hàng thất bại!");
+  //   }
+  // };
 
   const columns = [
     {
@@ -370,7 +496,10 @@ const handleDistrictChange = (value: number) => {
             <Form.Item label="Hình thức nhận hàng">
               <Radio.Group
                 value={isReceiveAtStore ? "store" : "address"}
-                onChange={(e) => setIsReceiveAtStore(e.target.value === "store")}
+                onChange={(e) => {
+                  const isStore = e.target.value === "store";
+                  setIsReceiveAtStore(isStore);
+                }}
               >
                 <Radio value="store">Nhận tại cửa hàng</Radio>
                 <Radio value="address">Nhận tại địa chỉ</Radio>
@@ -468,6 +597,26 @@ const handleDistrictChange = (value: number) => {
           rowKey={(r) => r.code}
           pagination={false}
         />
+      </Modal>
+
+      {/* Modal xác nhận thanh toán */}
+      <Modal
+        title="Xác nhận đơn hàng"
+        open={showConfirmModal}
+        onCancel={() => setShowConfirmModal(false)}
+        onOk={handleConfirmCheckout}
+        okText="Xác nhận thanh toán"
+        cancelText="Hủy"
+        width={500}
+      >
+        <div className="space-y-3 text-right">
+          <p>Tạm tính: {total.toLocaleString("vi-VN")}₫</p>
+          <p>Phí vận chuyển: +{shippingFee.toLocaleString("vi-VN")}₫</p>
+          <p>Giảm giá: -{discountAmount.toLocaleString("vi-VN")}₫</p>
+          <p className="font-bold text-red-500 text-lg">
+            Tổng cộng: {(total - discountAmount + shippingFee).toLocaleString("vi-VN")}₫
+          </p>
+        </div>
       </Modal>
     </div>
   );

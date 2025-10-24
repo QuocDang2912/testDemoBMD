@@ -109,6 +109,27 @@ export default function ManageOrder() {
       title: "Điện thoại",
       dataIndex: "receiverPhone",
     },
+       {
+      title: "Tạm tính",
+      dataIndex: "moneyProduct",
+      align: "center",
+      render: (moneyProduct: number) =>
+        moneyProduct.toLocaleString("vi-VN", { style: "currency", currency: "VND" }),
+    },
+       {
+      title: "Giảm giá",
+      dataIndex: "moneyDiscountCoupon",
+      align: "center",
+      render: (moneyDiscountCoupon: number) =>
+        moneyDiscountCoupon.toLocaleString("vi-VN", { style: "currency", currency: "VND" }),
+    },
+       {
+      title: "Phí giao hàng",
+      dataIndex: "shipFee",
+      align: "center",
+      render: (shipFee: number) =>
+        shipFee.toLocaleString("vi-VN", { style: "currency", currency: "VND" }),
+    },
     {
       title: "Tổng tiền",
       dataIndex: "moneyFinal",
